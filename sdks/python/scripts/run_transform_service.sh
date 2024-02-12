@@ -87,7 +87,6 @@ case $STARTSTOP in
     echo "Starting the transform service for project $GROUP_ID at port $EXTERNAL_PORT for Beam version $BEAM_VERSION_DOCKER transform service startup jar is $TRANSFORM_SERVICE_LAUNCHER_JAR"
     java -jar $TRANSFORM_SERVICE_LAUNCHER_JAR --project_name $GROUP_ID --port $EXTERNAL_PORT --beam_version $BEAM_VERSION_DOCKER --command up  >$TEMP_DIR/$FILE_BASE-java1.log 2>&1 </dev/null
     echo "************ xyz123 in script run_transform_service.sh: DONE the service"
-    return 2
     ;;
   stop)
     echo "Stopping the transform service for project $GROUP_ID at port $EXTERNAL_PORT for Beam version $BEAM_VERSION_DOCKER  transform service startup jar is $TRANSFORM_SERVICE_LAUNCHER_JAR"
