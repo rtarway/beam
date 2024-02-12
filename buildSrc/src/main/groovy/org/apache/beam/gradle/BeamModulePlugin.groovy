@@ -2620,8 +2620,10 @@ class BeamModulePlugin implements Plugin<Project> {
             expansionServiceOpts.put("java_port", javaExpansionPort)
             // setup test env
             def serviceArgs = project.project(':sdks:python').mapToArgString(expansionServiceOpts)
+            System.err.println '********** xyz123 BeamModulePlugin: starting transform service ...'
             executable 'sh'
             args '-c', ". ${project.ext.envdir}/bin/activate && $pythonDir/scripts/run_expansion_services.sh stop --group_id ${project.name} && $pythonDir/scripts/run_expansion_services.sh start $serviceArgs"
+            System.err.println '********** xyz123 BeamModulePlugin: DONE starting transform service ...'
           }
         }
       }
@@ -2658,8 +2660,10 @@ class BeamModulePlugin implements Plugin<Project> {
       // 3. Shuts down the expansion service
       def cleanupTask = project.tasks.register(config.name+'Cleanup', Exec) {
         // teardown test env
+        System.err.println '********** xyz123 BeamModulePlugin: stopping transform service ...'
         executable 'sh'
         args '-c', ". ${project.ext.envdir}/bin/activate && $pythonDir/scripts/run_expansion_services.sh stop --group_id ${project.name}"
+        System.err.println '********** xyz123 BeamModulePlugin: DONE stopping transform service ...'
       }
 
       setupTask.configure {finalizedBy cleanupTask}
