@@ -2622,8 +2622,12 @@ class BeamModulePlugin implements Plugin<Project> {
             def serviceArgs = project.project(':sdks:python').mapToArgString(expansionServiceOpts)
             System.err.println '********** xyz123 BeamModulePlugin: starting transform service ...'
             executable 'sh'
-            args '-c', ". ${project.ext.envdir}/bin/activate && $pythonDir/scripts/run_expansion_services.sh stop --group_id ${project.name} && $pythonDir/scripts/run_expansion_services.sh start $serviceArgs"
-            System.err.println '********** xyz123 BeamModulePlugin: DONE starting transform service ...'
+            args '-c', ". ${project.ext.envdir}/bin/activate && $pythonDir/scripts/run_expansion_services.sh stop --group_id ${project.name} && $pythonDir/scripts/run_expansion_services.sh start $serviceArgs > ./transform_service_start_log 2>&1"
+            System.err.println '********** xyz123 BeamModulePlugin: DONE starting transform service LOG:\n'
+            String fileContents = new File('./transform_service_start_log').text
+            System.err.println fileContents
+            System.err.println "\nEND LOG\n\n"
+
           }
         }
       }
@@ -2662,8 +2666,11 @@ class BeamModulePlugin implements Plugin<Project> {
         // teardown test env
         System.err.println '********** xyz123 BeamModulePlugin: stopping transform service ...'
         executable 'sh'
-        args '-c', ". ${project.ext.envdir}/bin/activate && $pythonDir/scripts/run_expansion_services.sh stop --group_id ${project.name}"
+        args '-c', ". ${project.ext.envdir}/bin/activate && $pythonDir/scripts/run_expansion_services.sh stop --group_id ${project.name} > ./transform_service_stop_log 2>&1"
         System.err.println '********** xyz123 BeamModulePlugin: DONE stopping transform service ...'
+        String fileContents = new File('./transform_service_stop_log').text
+        System.err.println fileContents
+        System.err.println "\nEND LOG\n\n"
       }
 
       setupTask.configure {finalizedBy cleanupTask}
