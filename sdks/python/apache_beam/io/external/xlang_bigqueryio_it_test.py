@@ -53,6 +53,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 @pytest.mark.uses_gcp_java_expansion_service
+@pytest.mark.uses_transform_service
 class BigQueryXlangStorageWriteIT(unittest.TestCase):
   BIGQUERY_DATASET = 'python_xlang_storage_write'
 
