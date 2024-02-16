@@ -137,7 +137,7 @@ func launchExpansionServiceProcess() error {
 	if err != nil {
 		return err
 	}
-	log.Printf("Starting Python expansion service ...")
+	log.Printf("Starting Python expansion service ... 1")
 
 	dir := filepath.Join("/opt/apache/beam", venvDirectory)
 	os.Setenv("VIRTUAL_ENV", dir)
@@ -145,15 +145,19 @@ func launchExpansionServiceProcess() error {
 
 	args := []string{"-m", expansionServiceEntrypoint, "-p", strconv.Itoa(*port), "--fully_qualified_name_glob", "*"}
 
+  log.Printf("****** xyz123 executing ls -al")
+	if err := execx.Execute("ls", "-al", "/dependencies_volume/"); err != nil {
+    return fmt.Errorf("Could not execute ls -al")
+  }
+  log.Printf("****** xyz123 DONE executing ls -al")
+
 	if *requirements_file != "" {
 		log.Printf("Received the requirements file %v", *requirements_file)
 		updatedRequirementsFileName, err := getUpdatedRequirementsFile(*requirements_file, *dependencies_dir)
 		if err != nil {
 			return err
 		}
-		if err := execx.Execute("ls", "-al", "/dependencies_volume/"); err != nil {
-    		return fmt.Errorf("Could not execute ls -al")
-    }
+
 
 		defer os.Remove(updatedRequirementsFileName)
 		log.Printf("Updated requirements file is %v", updatedRequirementsFileName)
