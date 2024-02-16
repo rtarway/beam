@@ -151,6 +151,10 @@ func launchExpansionServiceProcess() error {
 		if err != nil {
 			return err
 		}
+		if err := execx.Execute("ls", "-al", "/dependencies_volume/"); err != nil {
+    		return fmt.Errorf("Could not execute ls -al")
+    }
+
 		defer os.Remove(updatedRequirementsFileName)
 		log.Printf("Updated requirements file is %v", updatedRequirementsFileName)
 		// Provide the requirements file to the expansion service so that packages get staged by runners.
