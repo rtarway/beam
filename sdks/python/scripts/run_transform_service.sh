@@ -87,12 +87,22 @@ case $STARTSTOP in
     echo "Starting the transform service for project $GROUP_ID at port $EXTERNAL_PORT for Beam version $BEAM_VERSION_DOCKER transform service startup jar is $TRANSFORM_SERVICE_LAUNCHER_JAR"
     java -jar $TRANSFORM_SERVICE_LAUNCHER_JAR --project_name $GROUP_ID --port $EXTERNAL_PORT --beam_version $BEAM_VERSION_DOCKER --command up  >$TEMP_DIR/$FILE_BASE-java1.log 2>&1 </dev/null
     echo "************ xyz123 in script run_transform_service.sh: DONE starting the service"
-    echo "************ xyz123 run_transform_service.sh: 4.1"
-    temp_output=`docker ps`
-    printf "Output from 'docker ps':\n${temp_output}\n\n"
-    echo "************ xyz123 run_transform_service.sh: 4.2"
     ;;
   stop)
+    echo "************ xyz123 run_transform_service.sh: printing docker logs"
+    printf "Logs from Controller:\n"
+    temp_output=`docker ps | grep 'controller'`
+    container=${temp_output%% *}
+    docker logs $container
+    printf "Logs from Java expansion service:\n"
+    temp_output=`docker ps | grep 'java'`
+    container=${temp_output%% *}
+    docker logs $container
+    printf "Logs from Python expansion service:\n"
+    temp_output=`docker ps | grep 'python'`
+    container=${temp_output%% *}
+    docker logs $container
+    echo "************ xyz123 run_transform_service.sh: DONE printing docker logs"
     echo "Stopping the transform service for project $GROUP_ID at port $EXTERNAL_PORT for Beam version $BEAM_VERSION_DOCKER  transform service startup jar is $TRANSFORM_SERVICE_LAUNCHER_JAR"
     java -jar $TRANSFORM_SERVICE_LAUNCHER_JAR --project_name $GROUP_ID --port $EXTERNAL_PORT --beam_version $BEAM_VERSION_DOCKER --command down  >$TEMP_DIR/$FILE_BASE-java2.log 2>&1 </dev/null
     TRANSFORM_SERVICE_TEMP_DIR=$TEMP_DIR/$GROUP_ID
