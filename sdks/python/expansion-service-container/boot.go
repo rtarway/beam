@@ -24,6 +24,7 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+//   "os/exec"
 	"path/filepath"
 	"strconv"
 	"strings"
@@ -145,11 +146,17 @@ func launchExpansionServiceProcess() error {
 
 	args := []string{"-m", expansionServiceEntrypoint, "-p", strconv.Itoa(*port), "--fully_qualified_name_glob", "*"}
 
-  log.Printf("****** xyz123 executing ls -al")
-	if err := execx.Execute("ls", "-al", "/dependencies_volume/"); err != nil {
-    return fmt.Errorf("Could not execute ls -al")
-  }
-  log.Printf("****** xyz123 DONE executing ls -al")
+
+  log.Printf("****** xyz123 executing ls -al:")
+	if err := execx.Execute("/bin/ls", "-al"); err != nil {
+		log.Printf("could not execute the ls command: %s", err)
+	}
+
+  log.Printf("****** xyz123 executing ls -al /:")
+	if err := execx.Execute("/bin/ls", "-al", "/"); err != nil {
+		log.Printf("could not execute the ls command: %s", err)
+	}
+
 
 	if *requirements_file != "" {
 		log.Printf("Received the requirements file %v", *requirements_file)
