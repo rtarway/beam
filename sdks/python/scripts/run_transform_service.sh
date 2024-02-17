@@ -90,16 +90,21 @@ case $STARTSTOP in
     ;;
   stop)
     echo "************ xyz123 run_transform_service.sh: printing docker logs"
+    temp_output=`docker ps`
+    printf "temp_output: $temp_output"
     printf "Logs from Controller:\n"
     temp_output=`docker ps | grep 'controller'`
+    printf "temp_output controller: $temp_output"
     container=${temp_output%% *}
     docker logs $container
     printf "Logs from Java expansion service:\n"
     temp_output=`docker ps | grep 'java'`
+    printf "temp_output java exp service: $temp_output"
     container=${temp_output%% *}
     docker logs $container
     printf "Logs from Python expansion service:\n"
     temp_output=`docker ps | grep 'python'`
+    printf "temp_output py exp service: $temp_output"
     container=${temp_output%% *}
     docker logs $container
     echo "************ xyz123 run_transform_service.sh: DONE printing docker logs"
