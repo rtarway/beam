@@ -148,15 +148,14 @@ func launchExpansionServiceProcess() error {
 
 
   log.Printf("****** xyz123 executing ls -al:")
-	if err := execx.Execute("/bin/ls", "-al"); err != nil {
-		log.Printf("could not execute the ls command: %s", err)
+	if err := execx.Execute("/usr/bin/ls", "-al"); err != nil {
+		return fmt.Errorf("Could not execute /usr/bin/ls -al: %s", err)
 	}
 
   log.Printf("****** xyz123 executing ls -al /:")
-	if err := execx.Execute("/bin/ls", "-al", "/"); err != nil {
-		log.Printf("could not execute the ls command: %s", err)
+	if err := execx.Execute("/usr/bin/ls", "-al", "/"); err != nil {
+		return fmt.Errorf("Could not execute /usr/bin/ls -al /: %s", err)
 	}
-
 
 	if *requirements_file != "" {
 		log.Printf("Received the requirements file %v", *requirements_file)
