@@ -307,7 +307,7 @@ mvn compile exec:java -Dexec.mainClass=org.apache.beam.examples.WordCount \
 
 ##### Non Portable
 
-When using Java, you must specify your dependency on the Cloud Dataflow Runner in your `pom.xml`.
+When using Java, you must specify your dependency on the Apache Spark Runner in your `pom.xml`.
 
 ```
 <dependency>
